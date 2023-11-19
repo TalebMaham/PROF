@@ -35,12 +35,20 @@
                 <img id="image_{{eleve.id}}" src="{{asset('images/toggle-on-solid.svg')}}" alt="" height="20">
               </button>
               <p id="result_{{eleve.id}}" style="color: green;">Present</p>
+              <a href="{{ path('generate_pdf') }}" target="_blank">Générer le PDF</a>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
+     
+
+     
+
 </div>
 {% endfor %}
 {% endblock %}
+
+
+

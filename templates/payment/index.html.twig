@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Paiement par MasterCard</h1>
+
+    <form method="post" action="{{ path('process_payment') }}">
+        <script src="https://js.stripe.com/v3/"></script>
+        <script>
+            var stripe = Stripe("{{ publicKey }}");
+            var elements = stripe.elements();
+
+            var card = elements.create('card');
+            card.mount('#card-element');
+
+            var form = document.getElementById('payment-form');
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                stripe.createToken(card).then(function(result) {
+                    if (result.error) {
+                        // Gérer les erreurs ici
+                    } else {
+                        var tokenInput = document.createElement('input');
+                        tokenInput.type = 'hidden';
+                        tokenInput.name = 'stripeToken';
+                        tokenInput.value = result.token.id;
+                        form.appendChild(tokenInput);
+                        form.submit();
+                    }
+                });
+            });
+        </script>
+
+        <div id="card-element">
+            <!-- Une zone pour entrer les informations de la carte -->
+        </div>
+
+        <button type="submit">Payer</button>
+    </form>
+{% endblock %}
